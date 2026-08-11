@@ -16,19 +16,27 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Install system dependencies
         run: |
           sudo apt update
           sudo apt install -y python3-pip build-essential git python3-dev \
             ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
             libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev \
-            autoconf automake libtool pkg-config m4 gettext openjdk-17-jdk unzip
+            autoconf automake libtool pkg-config m4 gettext unzip
 
       - name: Install Buildozer
         run: pip install --upgrade pip buildozer cython
 
-      - name: Build APK
-        run: buildozer android debug
+      - name: Accept Android licenses and build APK
+        run: |
+          yes | buildozer android debug || true
+          yes | buildozer android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
