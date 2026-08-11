@@ -31,7 +31,9 @@ jobs:
             autoconf automake libtool pkg-config m4 gettext unzip
 
       - name: Install Buildozer
-        run: pip install --upgrade pip buildozer cython
+        run: |
+          pip install "pip<24.1"
+          pip install buildozer cython
 
       - name: Accept Android licenses and build APK
         run: |
